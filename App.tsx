@@ -1,8 +1,11 @@
 import React from 'react';
+import { StatusBar } from 'react-native';
 //import AppLoading from 'expo-app-loading'; 
 import * as SplashScreen from 'expo-splash-screen';
 import { ThemeProvider } from 'styled-components';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import 'intl';
+import 'intl/locale-data/jsonp/pt-BR';
 
 import {
   useFonts,
@@ -13,8 +16,13 @@ import {
 
 import theme from './src/global/styles/theme';
 
-import { NavigationContainer } from '@react-navigation/native'
+// trocado pela src/routes>import { NavigationContainer } from '@react-navigation/native'
+import { Routes } from './src/routes';
 import { AppRoutes } from './src/routes/app.routes';
+
+import { SignIn } from './src/screens/SignIn';
+
+import { AuthProvider } from './src/hooks/auth';
 
 export default function App() {
   SplashScreen.preventAutoHideAsync();
@@ -35,9 +43,13 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex:1}}>
       <ThemeProvider theme={theme}>
-        <NavigationContainer>
-          <AppRoutes />
-        </NavigationContainer>
+ 
+        <StatusBar barStyle="light-content" />
+
+        <AuthProvider >
+          <Routes />
+        </AuthProvider>
+
       </ThemeProvider>
     </GestureHandlerRootView>
   )

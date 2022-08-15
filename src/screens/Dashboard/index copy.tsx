@@ -1,8 +1,7 @@
 import React from "react";
-import { getBottomSpace } from "react-native-iphone-x-helper";
 
 import { HighlightCard } from "../../components/HighlightCard";
-import { TransactionCard } from "../../components/TransactionCard";
+import { TransactionCard, TransactionCardProps } from "../../components/TransactionCard";
 
 import { 
     Container, 
@@ -17,22 +16,30 @@ import {
     HighlightCards,
     Transactions,
     Title,
-    TransactionsList
+    TransactionsList,
+    LogoutButton
 } from './styles';
 
+export interface DataListProps extends TransactionCardProps{
+    id: string;
+}
+
 export function Dashboard() {
-    const data = [
+    const data: DataListProps[] = [
         {
-        type: 'positive',
-        title: "Desenvolvimento de site",
-        amount: "R$ 12.000,00",
-        category: {
-            name: 'Vendas',
-            icon: 'dollar-sign'
+            id:'1',
+            type: 'positive',
+            title: "Desenvolvimento de site",
+            amount: "R$ 12.000,00",
+            category: {
+                name: 'Vendas',
+                icon: 'dollar-sign'
+            },
+            date: "13/11/2020"
         },
-        date: "13/11/2020"
-        },
+
         {
+            id:'2',
             type: 'negative',
             title: "Comia",
             amount: "R$ 12.000,00",
@@ -42,7 +49,9 @@ export function Dashboard() {
             },
             date: "13/11/2020"
         },
+
         {
+            id:'3',
             type: 'negative',
             title: "Aluguel",
             amount: "R$ 12.000,00",
@@ -65,7 +74,11 @@ export function Dashboard() {
                             <UserName>Cleirton</UserName>
                         </User>
                     </UserInfo>
-                    <Icon name="power"/>
+
+                    <LogoutButton onPress={() => {}}>
+                        <Icon name="power"/>
+                    </LogoutButton>
+
                 </UserWrapper>
             </Header>
 
@@ -93,14 +106,12 @@ export function Dashboard() {
             <Transactions>
                 <Title> Listagem </Title>
 
-                <TransactionsList 
-                    data={data}
-                    renderItem={({ item }) => 
-                        <TransactionCard data={item} /> }
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={{
-                        paddingBottom: getBottomSpace()
-                    }}
+                <TransactionsList
+                    data= {data} 
+                    keyExtractor= {item => item.id } 
+                    renderItem= {({ item }) => 
+                                <TransactionCard data={item} /> 
+                            }
                 />
             </Transactions>
 
